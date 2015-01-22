@@ -10,10 +10,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.bluetooth.BluetoothDevice;
+import java.util.Set;
 
 
 public class MenuActivity extends ActionBarActivity {
     private final static int REQUEST_CODE_ENABLE_BLUETOOTH = 0;
+    Set<BluetoothDevice> devices;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +38,12 @@ public class MenuActivity extends ActionBarActivity {
                         startActivityForResult(enableBlueTooth, REQUEST_CODE_ENABLE_BLUETOOTH);
                     }
 
+
+
+                    devices = bluetoothAdapter.getBondedDevices();
+                    for (BluetoothDevice blueDevice : devices) {
+                        Toast.makeText(MenuActivity.this, "Device = " + blueDevice.getName(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
