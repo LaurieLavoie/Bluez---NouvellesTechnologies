@@ -1,9 +1,13 @@
 package bluez.bluez;
 
+import android.bluetooth.BluetoothAdapter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 
 public class MenuActivity extends ActionBarActivity {
@@ -12,6 +16,21 @@ public class MenuActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        final Button btnConnection = (Button) findViewById(R.id.btnConnection);
+        btnConnection.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                if (bluetoothAdapter == null)
+                    Toast.makeText(MenuActivity.this, "Pas de Bluetooth",
+                            Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(MenuActivity.this, "Avec Bluetooth",
+                            Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
