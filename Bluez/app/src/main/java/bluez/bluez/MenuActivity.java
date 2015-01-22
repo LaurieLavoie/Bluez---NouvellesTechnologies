@@ -32,6 +32,9 @@ public class MenuActivity extends ActionBarActivity {
     Set<BluetoothDevice> devices;
     BluetoothAdapter bluetoothAdapter;
     BroadcastReceiver bluetoothReceiver;
+    BluetoothDevice[] allBluetoothDevices = new BluetoothDevice[20];
+    private int counter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,28 +56,27 @@ public class MenuActivity extends ActionBarActivity {
                         Intent enableBlueTooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                         startActivityForResult(enableBlueTooth, REQUEST_CODE_ENABLE_BLUETOOTH);
                     }
-
+                    final PopupMenu menu = new PopupMenu(MenuActivity.this, v);
                     devices = bluetoothAdapter.getBondedDevices();
+                    counter = 0;
                     for (BluetoothDevice blueDevice : devices)
                     {
-                        Button btnAdversaire = new Button(MenuActivity.this);
-                        btnAdversaire.setText(blueDevice.getName());
-                        LayoutParams params1 = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                        params1.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-                        btnAdversaire.setLayoutParams(params1);
-                        layoutMenu.addView(btnAdversaire);
+                        allBluetoothDevices[counter] = blueDevice;
+                        counter++;
+                        menu.getMenu().add(blueDevice.getName());
 
                        // Toast.makeText(MenuActivity.this, "Device = " + blueDevice.getName(), Toast.LENGTH_SHORT).show();
                     }
 
                       bluetoothReceiver = new BroadcastReceiver() {
                        // LinearLayout linearLayout = new LinearLayout(MenuActivity.this);
-                       PopupMenu menu = new PopupMenu(MenuActivity.this, v);
+
                         public void onReceive(Context context, Intent intent) {
                             String action = intent.getAction();
                             if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                                 BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
+                                allBluetoothDevices[counter] = device;
+                                MenuActivity.this.counter++;
 
                                 menu.getMenu().add(device.getName());
 
@@ -151,8 +153,13 @@ public class MenuActivity extends ActionBarActivity {
 
     @Override
     protected void onDestroy() {
-       // super.onDestroy();
-        //bluetoothAdapter.cancelDiscovery();
-        //unregisterReceiver(bluetoothReceiver);
+       super.onDestroy();
+       bluetoothAdapter.cancelDiscovery();
+       unregisterReceiver(bluetoothReceiver);
     }
+
+
 }
+
+
+

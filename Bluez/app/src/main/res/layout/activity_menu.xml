@@ -32,5 +32,13 @@
         android:id="@+id/textView6"
         android:layout_below="@+id/btnConnection"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Attendre un joueur"
+        android:id="@+id/btnServer"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
 
