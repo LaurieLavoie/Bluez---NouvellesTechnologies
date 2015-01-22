@@ -1,6 +1,8 @@
 package bluez.bluez;
 
+import android.Manifest;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,24 +13,29 @@ import android.widget.Toast;
 
 
 public class MenuActivity extends ActionBarActivity {
-
+    private final static int REQUEST_CODE_ENABLE_BLUETOOTH = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
         final Button btnConnection = (Button) findViewById(R.id.btnConnection);
-        btnConnection.setOnClickListener(new View.OnClickListener()
-        {
+        btnConnection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
                 BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
                 if (bluetoothAdapter == null)
-                    Toast.makeText(MenuActivity.this, "Pas de Bluetooth",
-                            Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(MenuActivity.this, "Avec Bluetooth",
-                            Toast.LENGTH_SHORT).show();
+                {
+                    Toast.makeText(MenuActivity.this, "Vous n'avez pas le Bluetooth sur votre cellulaire.",
+                    Toast.LENGTH_SHORT).show();
+                } else
+                {
+                    if (!bluetoothAdapter.isEnabled()) {
+                        Intent enableBlueTooth = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                        startActivityForResult(enableBlueTooth, REQUEST_CODE_ENABLE_BLUETOOTH);
+                    }
+
+                }
             }
         });
     }
@@ -54,5 +61,20 @@ public class MenuActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != REQUEST_CODE_ENABLE_BLUETOOTH)
+            return;
+        if (resultCode == RESULT_OK) {
+            Toast.makeText(MenuActivity.this, "Le Bluetooth est maintenant activé.",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(MenuActivity.this, "Vous n'avez pas activé le Bluetooth.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 }
