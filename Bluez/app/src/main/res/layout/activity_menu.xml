@@ -9,36 +9,54 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Jouer"
-        android:id="@+id/btnPlay"
+        android:text="Turn on"
+        android:id="@+id/btnTurnOn"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="55dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trouver un adversaire via bluetooth"
-        android:id="@+id/btnConnection"
-        android:layout_marginTop="34dp"
-        android:layout_below="@+id/btnPlay"
+        android:text="Turn off"
+        android:id="@+id/btnTurnOff"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Liste des appareils connus"
+        android:id="@+id/btnPaired"
+        android:layout_below="@+id/btnTurnOn"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Trouver des appareils"
+        android:id="@+id/btnSearch"
+        android:layout_below="@+id/btnPaired"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Liste des adversaires  Cliquer sur le bouton pour rafraîchir la liste"
-        android:id="@+id/textView6"
-        android:layout_below="@+id/btnConnection"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Attendre un joueur"
-        android:id="@+id/btnServer"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
+        android:text=" "
+        android:id="@+id/textView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
 
