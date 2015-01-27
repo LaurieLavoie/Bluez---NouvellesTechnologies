@@ -4,6 +4,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 
 public class AnswerActivity extends ActionBarActivity {
@@ -12,6 +15,46 @@ public class AnswerActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_activity_answer);
+        TextView txtQuestion = (TextView) findViewById(R.id.txtQuestion);
+        final Button btnAnswer1 = (Button) findViewById(R.id.btnAnswer1);
+        final Button btnAnswer2 = (Button) findViewById(R.id.btnAnswer2);
+        final Button btnAnswer3 = (Button) findViewById(R.id.btnAnswer3);
+       btnAnswer1.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                sendAnswer(v, btnAnswer1.getText().toString());
+            }
+        });
+        btnAnswer2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                sendAnswer(v, btnAnswer2.getText().toString());
+            }
+        });
+        btnAnswer3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                sendAnswer(v, btnAnswer3.getText().toString());
+            }
+        });
+
+
+    }
+
+    private void sendAnswer(View v, String answer)
+    {
+        //Send answer
+    }
+
+    private void receiveQuestion()
+    {
+        //receive question
     }
 
 
