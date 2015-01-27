@@ -306,7 +306,6 @@ public class MenuActivity extends Activity {
     }
 
     private void connectDevice() {
-
         mBluezService.connect(mmDevice);
     }
 
