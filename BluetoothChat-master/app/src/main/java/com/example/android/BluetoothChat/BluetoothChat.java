@@ -382,9 +382,48 @@ public class BluetoothChat extends Activity {
     {
 
         Button btnSendAnswer = (Button) findViewById(R.id.btnSendAnswer);
-        String question = message;
+        String question = "";
+        String answer1 = "";
+        String answer2 = "";
+        String answer3= "";
+        String goodAnswer= "";
+        int index = -1;
+
+        index = message.indexOf(";");
+        question = message.substring(0,index);
+        message.substring(index);
+
+        index = message.indexOf(";");
+        answer1= message.substring(0,index);
+        message.substring(index);
+
+        index = message.indexOf(";");
+        answer2 = message.substring(0,index);
+        message.substring(index);
+
+        index = message.indexOf(";");
+        answer3 = message.substring(0,index);
+        message.substring(index);
+
+        index = message.indexOf(";");
+        goodAnswer = message.substring(0,index);
+        message.substring(index);
+
+
         TextView fieldQuestion = (TextView) findViewById(R.id.lblQuestionAnswer);
-        fieldQuestion.setText(message);
+        fieldQuestion.setText(question);
+
+        RadioButton rbToAnswer1 = (RadioButton) findViewById(R.id.rbToAnswer1);
+        rbToAnswer1.setText(answer1);
+        RadioButton  rbToAnswer2 = (RadioButton) findViewById(R.id.rbToAnswer2);
+        rbToAnswer2.setText(answer2);
+        RadioButton  rbToAnswer3 = (RadioButton) findViewById(R.id.rbToAnswer3);
+        rbToAnswer3.setText(answer3);
+
+
+
+
+
 
         if(btnSendAnswer != null)
         {
