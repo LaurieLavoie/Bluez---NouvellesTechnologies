@@ -36,8 +36,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.lang.reflect.Field;
 
 /**
  * This is the main Activity that displays the current chat session.
@@ -63,9 +66,9 @@ public class BluetoothChat extends Activity {
 	private static final int REQUEST_ENABLE_BT = 3;
 
 	// Layout Views
-	private ListView mConversationView;
+	//private ListView mConversationView;
 	private EditText mOutEditText;
-	private Button mSendButton;
+	//private Button mSendButton;
 
 	// Name of the connected device
 	private String mConnectedDeviceName = null;
@@ -85,7 +88,7 @@ public class BluetoothChat extends Activity {
 			Log.e(TAG, "+++ ON CREATE +++");
 
 		// Set up the window layout
-		setContentView(R.layout.main);
+		setContentView(R.layout.answer);
 
 		// Get local Bluetooth adapter
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -114,7 +117,11 @@ public class BluetoothChat extends Activity {
 			// Otherwise, setup the chat session
 		} else {
 			if (mChatService == null)
-				setupChat();
+            {
+                setupChat();
+            }
+
+           // setContentView(R.layout.answer);
 		}
 	}
 
@@ -138,37 +145,97 @@ public class BluetoothChat extends Activity {
 		}
 	}
 
-	private void setupChat() {
-		Log.d(TAG, "setupChat()");
+    private void setupChat() {
+        Log.d(TAG, "setupChat()");
 
-		// Initialize the array adapter for the conversation thread
-		mConversationArrayAdapter = new ArrayAdapter<String>(this,
-				R.layout.message);
-		mConversationView = (ListView) findViewById(R.id.in);
-		mConversationView.setAdapter(mConversationArrayAdapter);
+// Initialize the array adapter for the conversation thread
+        mConversationArrayAdapter = new ArrayAdapter<String>(this,
+                R.layout.message);
+      //  mConversationView = (ListView) findViewById(R.id.in);
+      //  mConversationView.setAdapter(mConversationArrayAdapter);
 
-		// Initialize the compose field with a listener for the return key
-		mOutEditText = (EditText) findViewById(R.id.edit_text_out);
-		mOutEditText.setOnEditorActionListener(mWriteListener);
+// Initialize the compose field with a listener for the return key
+       // mOutEditText = (EditText) findViewById(R.id.edit_text_out);
+       // mOutEditText.setOnEditorActionListener(mWriteListener);
 
-		// Initialize the send button with a listener that for click events
-		mSendButton = (Button) findViewById(R.id.button_send);
-		mSendButton.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				// Send a message using content of the edit text widget
-				TextView view = (TextView) findViewById(R.id.edit_text_out);
-				String message = view.getText().toString();
-				sendMessage(message);
-			}
-		});
+// Initialize the send button with a listener that for click events
+       // mSendButton = (Button) findViewById(R.id.button_send);
+      //  mSendButton.setOnClickListener(new OnClickListener() {
+        //    public void onClick(View v) {
+// Send a message using content of the edit text widget
+         //       TextView view = (TextView) findViewById(R.id.edit_text_out);
+         //       String message = view.getText().toString();
+         //       sendMessage(message);
+        //    }
+      //  });
 
-		// Initialize the BluetoothChatService to perform bluetooth connections
-		mChatService = new BluetoothChatService(this, mHandler);
 
-		// Initialize the buffer for outgoing messages
-		mOutStringBuffer = new StringBuffer("");
-	}
 
+
+
+// Initialize the BluetoothChatService to perform bluetooth connections
+        mChatService = new BluetoothChatService(this, mHandler);
+
+// Initialize the buffer for outgoing messages
+        mOutStringBuffer = new StringBuffer("");
+    }
+
+    public void setQuestionInterface()
+    {
+        Button btnSend = (Button) findViewById(R.id.btnSend);
+        Button btnSendAnswer = (Button) findViewById(R.id.btnSendAnswer);
+        if(btnSend != null)
+        {
+            Toast.makeText(BluetoothChat.this,"Prout!", Toast.LENGTH_SHORT)
+                    .show();
+            btnSend.setOnClickListener(new OnClickListener() {
+                        public void onClick(View v) {
+                            // Send a message using content of the edit text widget
+                            TextView txtQuestion = (TextView) findViewById(R.id.txtQuestion);
+                            TextView txtAnswer1 = (TextView) findViewById(R.id.txtAnswer1);
+                            TextView txtAnswer2 = (TextView) findViewById(R.id.txtAnswer2);
+                            TextView txtAnswer3 = (TextView) findViewById(R.id.txtAnswer3);
+                            RadioButton rbAnswer1 = (RadioButton) findViewById(R.id.rbAnswer1);
+                            RadioButton rbAnswer2 = (RadioButton) findViewById(R.id.rbAnswer2);
+                            RadioButton rbAnswer3 = (RadioButton) findViewById(R.id.rbAnswer3);
+                    boolean valid = true;
+                    int goodAnswer = -1;
+
+                    if(rbAnswer1.isChecked())
+                    {
+                        goodAnswer = 1;
+                    }
+                    else if(rbAnswer2.isChecked())
+                    {
+                        goodAnswer = 2;
+                    }
+                    else if(rbAnswer3.isChecked())
+                    {
+                        goodAnswer = 3;
+                    }
+                    else
+                    {
+                        Toast.makeText(BluetoothChat.this,"Vous n'avez pas indiqué la bonne réponse!! Épais", Toast.LENGTH_SHORT)
+                                .show();
+                        valid = false;
+                    }
+
+                    if(valid)
+                    {
+                        String message = txtQuestion.getText().toString() + ";" + txtAnswer1.getText().toString() + ";" + txtAnswer2.getText().toString() + ";" + txtAnswer3.getText().toString() + ";" + goodAnswer;
+                        sendMessage(message);
+                    }
+
+                }
+            });
+        }
+        else if(btnSendAnswer != null)
+        {
+            Toast.makeText(BluetoothChat.this,"Colocs de marde!", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
+    }
 	@Override
 	public synchronized void onPause() {
 		super.onPause();
@@ -227,7 +294,7 @@ public class BluetoothChat extends Activity {
 
 			// Reset out string buffer to zero and clear the edit text field
 			mOutStringBuffer.setLength(0);
-			mOutEditText.setText(mOutStringBuffer);
+			//mOutEditText.setText(mOutStringBuffer);
 		}
 	}
 
@@ -293,6 +360,7 @@ public class BluetoothChat extends Activity {
 				String readMessage = new String(readBuf, 0, msg.arg1);
 				mConversationArrayAdapter.add(mConnectedDeviceName + ":  "
 						+ readMessage);
+                setAnswerInterface(readMessage);
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
@@ -310,7 +378,61 @@ public class BluetoothChat extends Activity {
 		}
 	};
 
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    private void setAnswerInterface(String message)
+    {
+
+        Button btnSendAnswer = (Button) findViewById(R.id.btnSendAnswer);
+        String question = message;
+        TextView fieldQuestion = (TextView) findViewById(R.id.lblQuestionAnswer);
+        fieldQuestion.setText(message);
+
+        if(btnSendAnswer != null)
+        {
+
+          /*  btnSendAnswer.setOnClickListener(new OnClickListener() {
+                public void onClick(View v) {
+   git                  // Send a message using content of the edit text widget
+                    TextView txtQuestion = (TextView) findViewById(R.id.txtQuestion);
+                    TextView txtAnswer1 = (TextView) findViewById(R.id.txtAnswer1);
+                    TextView txtAnswer2 = (TextView) findViewById(R.id.txtAnswer2);
+                    TextView txtAnswer3 = (TextView) findViewById(R.id.txtAnswer3);
+                    RadioButton rbAnswer1 = (RadioButton) findViewById(R.id.rbAnswer1);
+                    RadioButton rbAnswer2 = (RadioButton) findViewById(R.id.rbAnswer2);
+                    RadioButton rbAnswer3 = (RadioButton) findViewById(R.id.rbAnswer3);
+                    boolean valid = true;
+                    int goodAnswer = -1;
+
+                    if(rbAnswer1.isChecked())
+                    {
+                        goodAnswer = 1;
+                    }
+                    else if(rbAnswer2.isChecked())
+                    {
+                        goodAnswer = 2;
+                    }
+                    else if(rbAnswer3.isChecked())
+                    {
+                        goodAnswer = 3;
+                    }
+                    else
+                    {
+                        Toast.makeText(BluetoothChat.this,"Vous n'avez pas indiqué la bonne réponse!! Épais", Toast.LENGTH_SHORT)
+                                .show();
+                        valid = false;
+                    }
+
+                    if(valid)
+                    {
+                        String message = txtQuestion.getText().toString() + ";" + txtAnswer1.getText().toString() + ";" + txtAnswer2.getText().toString() + ";" + txtAnswer3.getText().toString() + ";" + goodAnswer;
+                        sendMessage(message);
+                    }*/
+//
+//                }
+//            });
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (D)
 			Log.d(TAG, "onActivityResult " + resultCode);
 		switch (requestCode) {
@@ -342,6 +464,8 @@ public class BluetoothChat extends Activity {
 		// Get the BluetoothDevice object
 		BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
 		// Attempt to connect to the device
+        setContentView(R.layout.question);
+        setQuestionInterface();
 		mChatService.connect(device);
 	}
 

@@ -18,15 +18,15 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    
-    <ListView 
+
+    <ListView
         android:id="@+id/in"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:stackFromBottom="true"
         android:transcriptMode="alwaysScroll"
-        android:layout_weight="1" />
-    
+        android:layout_weight="0.73" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
