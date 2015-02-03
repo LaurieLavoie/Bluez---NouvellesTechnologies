@@ -358,9 +358,10 @@ public class BluetoothChat extends Activity {
 				byte[] readBuf = (byte[]) msg.obj;
 				// construct a string from the valid bytes in the buffer
 				String readMessage = new String(readBuf, 0, msg.arg1);
-				mConversationArrayAdapter.add(mConnectedDeviceName + ":  "
-						+ readMessage);
+                setContentView(R.layout.answer);
                 setAnswerInterface(readMessage);
+                Toast.makeText(BluetoothChat.this,readMessage, Toast.LENGTH_SHORT)
+                        .show();
 				break;
 			case MESSAGE_DEVICE_NAME:
 				// save the connected device's name
@@ -390,84 +391,72 @@ public class BluetoothChat extends Activity {
         int index = -1;
 
         index = message.indexOf(";");
-        question = message.substring(0,index);
-        message.substring(index);
-
-        index = message.indexOf(";");
-        answer1= message.substring(0,index);
-        message.substring(index);
-
-        index = message.indexOf(";");
-        answer2 = message.substring(0,index);
-        message.substring(index);
-
-        index = message.indexOf(";");
-        answer3 = message.substring(0,index);
-        message.substring(index);
-
-        index = message.indexOf(";");
-        goodAnswer = message.substring(0,index);
-        message.substring(index);
-
-
-        TextView fieldQuestion = (TextView) findViewById(R.id.lblQuestionAnswer);
-        fieldQuestion.setText(question);
-
-        RadioButton rbToAnswer1 = (RadioButton) findViewById(R.id.rbToAnswer1);
-        rbToAnswer1.setText(answer1);
-        RadioButton  rbToAnswer2 = (RadioButton) findViewById(R.id.rbToAnswer2);
-        rbToAnswer2.setText(answer2);
-        RadioButton  rbToAnswer3 = (RadioButton) findViewById(R.id.rbToAnswer3);
-        rbToAnswer3.setText(answer3);
-
-
-
-
-
-
-        if(btnSendAnswer != null)
+        if(index > 0)
         {
+            question = message.substring(0, index);
+            message= message.replace(question + ";", "");
 
-          /*  btnSendAnswer.setOnClickListener(new OnClickListener() {
-                public void onClick(View v) {
-   git                  // Send a message using content of the edit text widget
-                    TextView txtQuestion = (TextView) findViewById(R.id.txtQuestion);
-                    TextView txtAnswer1 = (TextView) findViewById(R.id.txtAnswer1);
-                    TextView txtAnswer2 = (TextView) findViewById(R.id.txtAnswer2);
-                    TextView txtAnswer3 = (TextView) findViewById(R.id.txtAnswer3);
-                    RadioButton rbAnswer1 = (RadioButton) findViewById(R.id.rbAnswer1);
-                    RadioButton rbAnswer2 = (RadioButton) findViewById(R.id.rbAnswer2);
-                    RadioButton rbAnswer3 = (RadioButton) findViewById(R.id.rbAnswer3);
-                    boolean valid = true;
-                    int goodAnswer = -1;
+            index = message.indexOf(";");
+            answer1= message.substring(0,index);
+            message =  message.replace(answer1 + ";", "");
 
-                    if(rbAnswer1.isChecked())
+            index = message.indexOf(";");
+            answer2 = message.substring(0,index);
+            message =  message.replace(answer2 + ";", "");
+
+            index = message.indexOf(";");
+            answer3 = message.substring(0,index);
+            message =  message.replace(answer3 + ";", "");
+
+            index = message.indexOf(";");
+            goodAnswer = message.substring(0,index);
+
+            final String answer = goodAnswer;
+
+            btnSendAnswer.setEnabled(true);
+
+
+            TextView fieldQuestion = (TextView) findViewById(R.id.lblQuestionAnswer);
+            fieldQuestion.setText(question);
+
+            final RadioButton rbToAnswer1 = (RadioButton) findViewById(R.id.rbToAnswer1);
+            rbToAnswer1.setText(answer1);
+            final RadioButton  rbToAnswer2 = (RadioButton) findViewById(R.id.rbToAnswer2);
+            rbToAnswer2.setText(answer2);
+            final RadioButton  rbToAnswer3 = (RadioButton) findViewById(R.id.rbToAnswer3);
+            rbToAnswer3.setText(answer3);
+
+            btnSendAnswer.setOnClickListener(new OnClickListener()
+            {
+                public void onClick(View v)
+                {
+                    if(rbToAnswer1.isChecked() && answer.equals("1"))
                     {
-                        goodAnswer = 1;
+                        Toast.makeText(BluetoothChat.this,"Bravo", Toast.LENGTH_SHORT)
+                                .show();
+                        sendMessage("L'utilisateur a bien répondu");
                     }
-                    else if(rbAnswer2.isChecked())
+                    else if(rbToAnswer2.isChecked() && answer.equals("2"))
                     {
-                        goodAnswer = 2;
+                        Toast.makeText(BluetoothChat.this,"Bravo", Toast.LENGTH_SHORT)
+                                .show();
+                        sendMessage("L'utilisateur a bien répondu");
                     }
-                    else if(rbAnswer3.isChecked())
+                    else if(rbToAnswer3.isChecked() && answer.equals("3"))
                     {
-                        goodAnswer = 3;
+                        Toast.makeText(BluetoothChat.this,"Bravo", Toast.LENGTH_SHORT)
+                                .show();
+                        sendMessage("L'utilisateur a bien répondu");
                     }
                     else
                     {
                         Toast.makeText(BluetoothChat.this,"Vous n'avez pas indiqué la bonne réponse!! Épais", Toast.LENGTH_SHORT)
                                 .show();
-                        valid = false;
-                    }
+                        sendMessage("L'utilisateur est un con");
 
-                    if(valid)
-                    {
-                        String message = txtQuestion.getText().toString() + ";" + txtAnswer1.getText().toString() + ";" + txtAnswer2.getText().toString() + ";" + txtAnswer3.getText().toString() + ";" + goodAnswer;
-                        sendMessage(message);
-                    }*/
-//
-//                }
-//            });
+                    }
+                }
+            });
         }
     }
 
